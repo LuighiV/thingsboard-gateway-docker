@@ -1,0 +1,22 @@
+version: '3.2'
+services: 
+  gw_thingsboard:
+    image: thingsboard/tb-gateway
+    container_name: tb-gateway
+    restart: always    
+    volumes:
+      - ./data/logs:/thingsboard_gateway/logs
+      - ./data/extensions:/thingsboard_gateway/extensions
+      - ./data/config:/thingsboard_gateway/config
+      - ./config/tb_gateway.yaml:/thingsboard_gateway/config/tb_gateway.yaml:ro
+      - ./config/mqtt.json:/thingsboard_gateway/config/mqtt.json:ro
+  gw_broker:
+    image: eclipse-mosquitto:2
+    container_name: tb-gateway-broker
+    restart: always    
+    volumes:
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - ./mosquitto/passwd:/mosquitto/config/passwd
+    ports:
+      - 3883:1883
+
